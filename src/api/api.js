@@ -4,12 +4,12 @@ export async function fetchBatteryCells() {
   try {
     const response = await fetch(`${BASE_URL}/batterycell`);
     if (!response.ok) {
-      throw new Error("Failed to fetch battery cells");
+      throw new Error("Failed to fetchBatteryCells");
     }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching battery cells:", error);
+    console.error("Error in fetchBatteryCells:", error);
     throw error;
   }
 }
@@ -18,12 +18,12 @@ export async function getBatteryCellById(id) {
   try {
     const response = await fetch(`${BASE_URL}/batterycell/${id}`);
     if (!response.ok) {
-      throw new Error("Failed to fetch battery cell");
+      throw new Error("Failed to getBatteryCellById");
     }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(`Error fetching battery cell with ID ${id}:`, error);
+    console.error(`Error in getBatteryCellById ${id}:`, error);
     throw error;
   }
 }
@@ -35,12 +35,12 @@ export async function postBatteryCell(data) {
       body: data,
     });
     if (!response.ok) {
-      throw new Error("Failed to post battery cell");
+      throw new Error("Failed to postBatteryCell");
     }
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error("Error posting battery cell:", error);
+    console.error("Error in postBatteryCell:", error);
     throw error;
   }
 }
@@ -52,12 +52,29 @@ export async function generatePlot(data) {
       body: data,
     });
     if (!response.ok) {
-      throw new Error("Failed to generate plot");
+      throw new Error("Failed to generatePlot");
     }
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error("Error generating plot:", error);
+    console.error("Error in generatePlot:", error);
+    throw error;
+  }
+}
+
+export async function getBatteryHealth(data) {
+  try {
+    const response = await fetch(`${BASE_URL}/impedance/health`, {
+      method: "POST",
+      body: data,
+    });
+    if (!response.ok) {
+      throw new Error("Failed to getBatteryHealth");
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error in getBatteryHealth:", error);
     throw error;
   }
 }
