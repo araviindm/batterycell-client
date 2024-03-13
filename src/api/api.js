@@ -45,36 +45,19 @@ export async function postBatteryCell(data) {
   }
 }
 
-export async function generatePlot(data) {
+export async function compute(data) {
   try {
-    const response = await fetch(`${BASE_URL}/impedance/plot`, {
+    const response = await fetch(`${BASE_URL}/impedance`, {
       method: "POST",
       body: data,
     });
     if (!response.ok) {
-      throw new Error("Failed to generatePlot");
+      throw new Error("Failed to compute");
     }
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error("Error in generatePlot:", error);
-    throw error;
-  }
-}
-
-export async function getBatteryHealth(data) {
-  try {
-    const response = await fetch(`${BASE_URL}/impedance/health`, {
-      method: "POST",
-      body: data,
-    });
-    if (!response.ok) {
-      throw new Error("Failed to getBatteryHealth");
-    }
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error("Error in getBatteryHealth:", error);
+    console.error("Error in compute:", error);
     throw error;
   }
 }
