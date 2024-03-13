@@ -44,3 +44,20 @@ export async function postBatteryCell(data) {
     throw error;
   }
 }
+
+export async function generatePlot(data) {
+  try {
+    const response = await fetch(`${BASE_URL}/impedance/plot`, {
+      method: "POST",
+      body: data,
+    });
+    if (!response.ok) {
+      throw new Error("Failed to generate plot");
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error generating plot:", error);
+    throw error;
+  }
+}
