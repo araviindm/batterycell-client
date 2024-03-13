@@ -19,10 +19,9 @@ const Home = () => {
 
   const fetchData = async () => {
     try {
-      const data = await fetchBatteryCells(); // Fetch battery cells
+      const data = await fetchBatteryCells();
       setBatteryCells(data);
     } catch (error) {
-      // Handle error
       console.error("Error fetching battery cells:", error);
     }
   };
