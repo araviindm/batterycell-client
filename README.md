@@ -1,4 +1,4 @@
-### Battery cell client
+# Battery cell client
 
 ## .env file
 
