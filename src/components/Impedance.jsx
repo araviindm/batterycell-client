@@ -1,9 +1,10 @@
 import { generatePlot } from "../api/api";
 import { useState } from "react";
+import Plot from "react-plotly.js";
 
 const Impedance = () => {
   const [file, setFile] = useState(null);
-  const [plotImage, setPlotImage] = useState(null);
+  const [plotData, setPlotData] = useState([]);
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     setFile(file);
@@ -14,19 +15,7 @@ const Impedance = () => {
     formDataToSend.append("file", file);
     try {
       const resp = await generatePlot(formDataToSend);
-      console.log(resp);
-      const decodedImage = atob(resp.plot);
-      const arrayBuffer = new Uint8Array(decodedImage.length);
-
-      for (let i = 0; i < decodedImage.length; i++) {
-        arrayBuffer[i] = decodedImage.charCodeAt(i);
-      }
-
-      const blob = new Blob([arrayBuffer], { type: "image/png" });
-
-      const imageUrl = URL.createObjectURL(blob);
-
-      setPlotImage(imageUrl);
+      setPlotData(JSON.parse(resp.plot));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -52,10 +41,21 @@ const Impedance = () => {
           </button>
         </div>
       </form>
-      {plotImage && (
-        <div className="mt-4">
-          <h2 className="mb-4 text-2xl font-semibold text-center">Bode Plot</h2>
-          <img src={plotImage} alt="Plot" />
+      {plotData.length > 0 && (
+        <div className="my-4">
+          <Plot
+            data={plotData}
+            layout={{
+              width: 800,
+              height: 400,
+              title: "Bode Plot",
+              xaxis: { title: "Frequency [Hz]" },
+              yaxis: [
+                { title: "|Z(ω)| [Ohms]" },
+                { title: "-φ_Z(ω) [°]", overlaying: "y", side: "right" },
+              ],
+            }}
+          />
         </div>
       )}
     </div>
